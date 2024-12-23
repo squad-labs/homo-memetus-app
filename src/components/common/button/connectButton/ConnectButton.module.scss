@@ -1,0 +1,80 @@
+.connect-button-dropdown {
+  position: relative;
+
+  .connect-button-container {
+    padding: 0.4rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--DYNAMIC);
+    border-radius: 0.65rem;
+    gap: 1rem;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--GRAY-10);
+    }
+
+    .account-image-wrapper {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+
+      .account-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .connect-button-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--CONSTANT);
+    }
+  }
+
+  .connect-button-list-wrapper {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(calc(100% + 1rem));
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: var(--DYNAMIC);
+    padding: 0.6rem;
+    border-radius: 0.65rem;
+    gap: 0.15rem;
+
+    .connect-button-item {
+      min-width: 16rem;
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: var(--DYNAMIC);
+      border-radius: 0.65rem;
+      gap: 1rem;
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--GRAY-9);
+      }
+
+      .wallet-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .connect-button-item-text {
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: var(--CONSTANT);
+      }
+    }
+  }
+}

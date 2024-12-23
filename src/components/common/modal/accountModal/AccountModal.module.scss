@@ -1,0 +1,114 @@
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal {
+    width: 23rem;
+    height: 26rem;
+    background-color: var(--GRAY-10);
+    border-radius: 1rem;
+    position: relative;
+    padding: 2rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .account-image-wrapper {
+      width: 7.5rem;
+      height: 7.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+
+      .account-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .account-info-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 1rem;
+
+      .account-item {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        background-color: var(--CONSTANT-OPACITY-1);
+        border-radius: 0.65rem;
+        border: 1px solid var(--CONSTANT-OPACITY-1);
+
+        .account-item-text {
+          font-size: 1.05rem;
+          font-weight: 500;
+          color: var(--CONSTANT-OPACITY-6);
+        }
+      }
+
+      .wallet-item {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        background-color: var(--CONSTANT-OPACITY-1);
+        border-radius: 0.65rem;
+        border: 1px solid var(--CONSTANT-OPACITY-1);
+
+        .wallet-item-text {
+          font-size: 1.05rem;
+          font-weight: 500;
+          color: var(--CONSTANT-OPACITY-6);
+        }
+      }
+
+      .button-wrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        background-color: antiquewhite;
+
+        .button {
+          flex: 1;
+          height: 2.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--GRAY-4);
+          border-radius: 0.65rem;
+          border: 1px solid var(--GRAY-4);
+
+          &:hover {
+            cursor: pointer;
+            background-color: var(--GRAY-10);
+
+            .button-text {
+              color: var(--CONSTANT);
+            }
+          }
+
+          .button-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--DYNAMIC);
+          }
+        }
+      }
+    }
+  }
+}
