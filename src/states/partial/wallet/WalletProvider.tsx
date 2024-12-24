@@ -31,19 +31,12 @@ type Props = {
   )[];
 };
 
-const WalletProvider = ({ children, network, endpoint }: Props) => {
+const WalletProvider = ({ children, network, endpoint, wallets }: Props) => {
   const { connection: walletConnection } = useConnection();
   const [wallet, setWallet] = useState<WalletName | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
-  const {
-    wallet: connectedWallet,
-    wallets,
-    publicKey,
-    disconnect,
-    select,
-    connect,
-  } = useWallet();
+  const { wallet: connectedWallet, publicKey, select, connect } = useWallet();
   useEffect(() => {
     if (!walletConnection || !publicKey) {
       return;
@@ -70,6 +63,8 @@ const WalletProvider = ({ children, network, endpoint }: Props) => {
       select(connectedWallet.adapter.name);
       connect();
       setWallet(connectedWallet?.adapter.name);
+    } else if (!connectedWallet && wallet) {
+      setWallet(null);
     }
     setAddress(publicKey?.toBase58()!);
   }, [publicKey, walletConnection, wallet]);

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "@/components/common/button/connectButton/ConnectButton.module.scss";
 import classNames from "classnames/bind";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -20,23 +20,21 @@ const ConnectButton = () => {
   const { select, disconnect, connect, connected } = useWallet();
   const [open, setOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { wallets, address, setWallet } = useConnect();
+  const { wallet, wallets, address, setWallet } = useConnect();
 
-  const handleWalletSelect = async (walletName: any) => {
-    if (walletName) {
+  const handleWalletSelect = useCallback(
+    async (walletName: WalletName) => {
       try {
         select(walletName);
-        connect();
+        wallet && connect();
         setOpen(false);
+        window.location.reload();
       } catch (error) {
         console.log("wallet connection err : ", error);
       }
-    }
-  };
-
-  const handleDisconnect = async () => {
-    disconnect();
-  };
+    },
+    [wallets, wallet, address]
+  );
 
   useOnClick({ ref, handler: () => setOpen(false), mouseEvent: "click" });
 
@@ -76,7 +74,6 @@ const ConnectButton = () => {
                 key={wallet.name}
                 className={cx("connect-button-item")}
                 onClick={() => {
-                  setWallet(wallet.name as WalletName);
                   handleWalletSelect(wallet.name);
                 }}
               >
