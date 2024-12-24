@@ -1,14 +1,14 @@
-import { WalletAdapterType } from '@/shared/types/etc/wallet';
-import { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
-import { Connection } from '@solana/web3.js';
-import { Context, createContext, Dispatch, SetStateAction } from 'react';
+import { WalletAdapterType } from "@/shared/types/etc/wallet";
+import { WalletAdapterNetwork, WalletName } from "@solana/wallet-adapter-base";
+import { Connection } from "@solana/web3.js";
+import { Context, createContext, Dispatch, SetStateAction } from "react";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
   MathWalletAdapter,
   TrustWalletAdapter,
   CoinbaseWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
+} from "@solana/wallet-adapter-wallets";
 
 export type WalletContextShape = {
   network:
@@ -31,7 +31,6 @@ export type WalletContextShape = {
   balance: number | null;
   setBalance: Dispatch<SetStateAction<number | null>>;
   connection: Connection | null;
-  setConnection: Dispatch<SetStateAction<Connection | null>>;
 };
 
 const defaultValue: WalletContextShape = {
@@ -45,7 +44,6 @@ const defaultValue: WalletContextShape = {
   connection: null,
   setAddress: () => {},
   setBalance: () => {},
-  setConnection: () => {},
 };
 
 export const WalletContext: Context<WalletContextShape> =

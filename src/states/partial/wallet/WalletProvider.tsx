@@ -1,22 +1,22 @@
-'use client';
+"use client";
 import React, {
   ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
-} from 'react';
-import { Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { WalletContext } from '@/states/partial/wallet/WalletContext';
-import { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
+} from "react";
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { WalletContext } from "@/states/partial/wallet/WalletContext";
+import { WalletAdapterNetwork, WalletName } from "@solana/wallet-adapter-base";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
   MathWalletAdapter,
   TrustWalletAdapter,
   CoinbaseWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+} from "@solana/wallet-adapter-wallets";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 type Props = {
   children: ReactNode;
@@ -31,40 +31,48 @@ type Props = {
   )[];
 };
 
-const WalletProvider = ({ children, network, endpoint, wallets }: Props) => {
+const WalletProvider = ({ children, network, endpoint }: Props) => {
   const { connection: walletConnection } = useConnection();
   const [wallet, setWallet] = useState<WalletName | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
-  const [connection, setConnection] = useState<Connection | null>(
-    walletConnection
-  );
-  const { publicKey, disconnect } = useWallet();
-
+  const {
+    wallet: connectedWallet,
+    wallets,
+    publicKey,
+    disconnect,
+    select,
+    connect,
+  } = useWallet();
   useEffect(() => {
-    if (!connection || !publicKey) {
+    if (!walletConnection || !publicKey) {
       return;
     }
 
-    connection.onAccountChange(
+    walletConnection.onAccountChange(
       publicKey,
       (updatedAccountInfo) => {
         setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
       },
-      'confirmed'
+      "confirmed"
     );
 
-    connection.getAccountInfo(publicKey).then((info) => {
+    walletConnection.getAccountInfo(publicKey).then((info) => {
       if (info) {
         setBalance(info?.lamports / LAMPORTS_PER_SOL);
       }
     });
-  }, [publicKey, connection]);
+  }, [publicKey, walletConnection]);
 
   useEffect(() => {
-    setConnection(walletConnection);
+    console.log(connectedWallet, wallet);
+    if (connectedWallet && !wallet) {
+      select(connectedWallet.adapter.name);
+      connect();
+      setWallet(connectedWallet?.adapter.name);
+    }
     setAddress(publicKey?.toBase58()!);
-  }, [publicKey, walletConnection]);
+  }, [publicKey, walletConnection, wallet]);
 
   const contextValue = useMemo(() => {
     return {
@@ -74,13 +82,12 @@ const WalletProvider = ({ children, network, endpoint, wallets }: Props) => {
       wallet,
       address,
       balance,
-      connection,
+      connection: walletConnection,
       setWallet,
       setAddress,
       setBalance,
-      setConnection,
     };
-  }, [network, endpoint, wallet, address, connection, balance]);
+  }, [network, endpoint, wallet, address, walletConnection, balance]);
 
   return (
     <WalletContext.Provider value={contextValue}>
